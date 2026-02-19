@@ -1,0 +1,68 @@
+<!--Logan Bales-->
+<!--Student Website-->
+<!--metasplainer.html-->
+
+<head><link rel = "stylesheet" type = "text/css" href = "css/style.css"></head>
+<div></div>
+<script>
+    if(sessionStorage.getItem("body")===("dark")){
+        document.body.classList.add("dark");
+    }
+</script>
+<h1>
+    Logan Bales Student Website
+</h1>
+
+<ul>
+    <li><a href = "index.html" > Home</a></li>
+    <li><a href = "thoughtbubble.html" > Thoughtbubble</a></li>
+    <li><a href = "hobbies.html" > Hobbies</a></li>
+    <li><a href = "metasplainer.html" > Metasplainer</a></li>
+    <li><a href = "contact.html" > Contact</a></li>
+    <button id="LDMode">Light/Dark Mode</button>
+    <script>
+        document.getElementById("LDMode").onclick = function(){
+        document.getElementsByTagName("body")[0].classList.toggle("dark");
+        if(document.body.classList.contains("dark")){
+            sessionStorage.setItem("body","dark");
+        }
+        else{
+            sessionStorage.setItem("body","light");
+        }
+    };
+</script>
+
+</ul>
+
+<body>
+    <br>
+    <p1 id="subject">
+        Metasplainer
+    </p1>
+
+    <p2 id="description">
+        Understand your photos.
+        
+    </p2>
+
+    <p3 id="extra">
+        After looking studying many metadata tools and apps, we found they all have the same problem. They don't actually explain what the information means. That is why my brother and I created an app that explains the metadata to users who are unfamiliar with this information as part of our human-centered computing course.
+    </p3>
+
+    <video length="320" width="240" controls muted>
+        <source src="/images/recording.webm" type="video/webm">
+    </video>
+
+    <p3 id="extra">
+        We conducted two user studies at different stages in our development. The first study concluded with users liking both designs, the first for its quality design and the second for its ease of use. This is why we decided to incorporate both prototypes into the final product. The second user study had users wanting more information displayed when our functional prototype only had date, time, and location. They also asked for larger fonts and a more interesting design.
+    </p3>
+
+    <img id="nfp"src="/images/nfprototype1.png" length="600" width="400">
+    <img id="nfp"src="/images/nfprototype2.png" length="600" width="400">
+    <img id="nfp"src="/images/nfprototype3.png" length="550" width="350">
+
+    <footer>
+        Footer
+        <audio controls src="audio/general.wav"></audio>
+    </footer>
+</body>
