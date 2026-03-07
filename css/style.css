@@ -202,3 +202,28 @@ footer{
     color:white;
     width:100%;
 }
+
+#board{
+    height:480px;
+    width:640px;
+    margin-left:400;
+    background-color:grey;
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.tile{
+    background-color: white;
+    width: 91px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.player1{
+    background-color:red;
+}
+
+.player2{
+    background-color: blue;
+}
+
