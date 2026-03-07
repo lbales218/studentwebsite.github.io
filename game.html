@@ -1,0 +1,275 @@
+<!--Logan Bales-->
+<!--Student Website-->
+<!--game.html-->
+
+<head><link rel = "stylesheet" type = "text/css" href = "css/style.css"></head>
+<div></div>
+<script>
+    if(sessionStorage.getItem("body")===("dark")){
+        document.body.classList.add("dark");
+    }
+</script>
+<h1>
+    Logan Bales Student Website
+</h1>
+
+<ul>
+    <li><a href = "index.html" > Home</a></li>
+    <li><a href = "thoughtbubble.html" > Thoughtbubble</a></li>
+    <li><a href = "hobbies.html" > Hobbies</a></li>
+    <li><a href = "metasplainer.html" > Metasplainer</a></li>
+    <li><a href = "contact.html" > Contact</a></li>
+    <li><a href = "game.html">Game</a></li>
+    <button id="LDMode">Light/Dark Mode</button>
+    <script>
+        document.getElementById("LDMode").onclick = function(){
+        document.getElementsByTagName("body")[0].classList.toggle("dark");
+        if(document.body.classList.contains("dark")){
+            sessionStorage.setItem("body","dark");
+        }
+        else{
+            sessionStorage.setItem("body","light");
+        }
+    };
+</script>
+    
+
+</ul>
+
+<body>
+    <br>
+    <p1 id="subject">
+        Connect 4
+    </p1>
+
+    <br>
+
+    <p2 id="description">
+        play
+    </p2>
+
+    <br>
+
+    <div id="board" ></div>
+
+    <footer>
+        Footer
+        <audio controls src="audio/general.wav"></audio>
+    </footer>
+</body>
+
+<script>
+    var rows = 6;
+    var collumns = 7;
+    var gameover = false;
+    var board;
+    var currentplayer;
+    var columndepth;
+
+
+    
+    
+    class model{
+
+        
+
+        newboard(){
+            columndepth = [5,5,5,5,5,5,5];
+            board = [
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0]
+            ];
+        }
+
+        setplayer(){
+            if (currentplayer == undefined){
+                currentplayer = 1;
+                document.getElementById("description").textContent = "Player 1 turn";
+            }
+        }
+
+        changeplayer(){
+            if (currentplayer == 1){
+                currentplayer = 2;
+                document.getElementById("description").textContent = "Player 2 turn";
+            }
+            else {
+                currentplayer = 1;
+                document.getElementById("description").textContent = "Player 1 turn";
+            }
+        }
+
+        
+
+        movelogic(tile){
+            //use column depth to make pieces "fall"
+            let selcolumn = tile.id.toString();
+            selcolumn = selcolumn[2];
+            let row = columndepth[selcolumn];
+            if (row < 0) return;
+            board[row][selcolumn] = currentplayer;
+            columndepth[selcolumn] = columndepth[selcolumn] - 1;
+            //return newtile to view
+            return document.getElementById(row + "-" + selcolumn);
+            
+            
+        }
+
+        istherewin(tile){
+            let row = tile.id.toString();
+            row = row[0];
+            let column = tile.id.toString();
+            column = column[2];
+
+            //make sure we don't change tile we start from
+            let rowcheck = row;
+            let columncheck = column;
+
+            let numpiece = 1;
+
+            //check vertical
+            while (rowcheck < 5){
+                
+                rowcheck++;
+                if(board[rowcheck][columncheck] == currentplayer){
+                    numpiece++;
+                }
+                if(numpiece >= 4){
+                    return true;
+                }
+            }
+
+            //reset to starting tile
+            rowcheck = row;
+            columncheck = column;
+            numpiece = 1;
+
+            //check horizontal left
+            while (columncheck < 6 && columncheck >= 0){
+                columncheck--;
+                if(board[rowcheck][columncheck] == currentplayer){
+                    numpiece++
+                }
+                if(numpiece >= 4){
+                    return true;
+                }
+            }
+
+            //reset to starting tile
+            rowcheck = row;
+            columncheck = column;
+            numpiece = 1;
+
+            //check horizontal right
+            while (columncheck < 6 && columncheck >= 0){
+                columncheck++;
+                if(board[rowcheck][columncheck] == currentplayer){
+                    numpiece++
+                }
+                if(numpiece >= 4){
+                    return true;
+                }
+            }
+
+            //reset to starting tile
+            rowcheck = row;
+            columncheck = column;
+            numpiece = 1;
+
+            //check diagonal right
+            while (columncheck < 6 && columncheck >= 0 && rowcheck < 5 && rowcheck >=0){
+                columncheck--;
+                rowcheck++
+                if(board[rowcheck][columncheck] == currentplayer){
+                    numpiece++
+                }
+                if(numpiece >= 4){
+                    return true;
+                }
+            }
+
+            //reset to starting tile
+            rowcheck = row;
+            columncheck = column;
+            numpiece = 1;
+
+            //check diagonal left
+            while (columncheck < 6 && columncheck >= 0 && rowcheck < 5 && rowcheck >=0){
+                columncheck++;
+                rowcheck++
+                if(board[rowcheck][columncheck] == currentplayer){
+                    numpiece++
+                }
+                if(numpiece >= 4){
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+    }
+
+
+    class view{
+        initializeBoard(){
+            for (let r = 0; r < rows; r++){
+                for (let c = 0; c < collumns; c++){
+                    //create div elements for each position
+                    let tile = document.createElement("div");
+                    tile.id = r.toString() + "-" + c.toString();
+                    tile.classList.add("tile");
+                    tile.addEventListener("click", ()=> move(tile));
+                    document.getElementById("board").append(tile);
+
+                }
+            }
+        }
+    }
+
+
+    class controller{
+        makemove(tile){
+            if(gameover == true) return;
+            //check if space already taken
+            if(tile.classList.contains("player1") || tile.classList.contains("player2")) return;
+            //check where piece falls to
+            let newtile = logic.movelogic(tile);
+            //add colored tile to board
+            if(currentplayer == 1) newtile.classList.add("player1");
+            if(currentplayer == 2) newtile.classList.add("player2");
+            if (logic.istherewin(newtile) == true){
+                //endgame
+                gameover = true;
+                document.getElementById("description").textContent = "Player" + currentplayer + " wins! Refresh to start new game.";
+                return;
+            }
+            logic.changeplayer();
+            
+            
+        }
+    }
+
+
+    function gamesetup(){
+        ui.initializeBoard();
+        logic.newboard();
+        logic.setplayer();
+    }
+
+    function move(tile){
+        control.makemove(tile);
+    }
+
+
+    const logic = new model();
+    const ui = new view();
+    const control = new controller();
+
+    window.onload = gamesetup;
+
+</script>
