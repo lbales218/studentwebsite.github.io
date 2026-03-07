@@ -186,8 +186,8 @@
             columncheck = column;
             numpiece = 1;
 
-            //check diagonal right
-            while (columncheck < 6 && columncheck >= 0 && rowcheck < 5 && rowcheck >=0){
+            //check diagonal left
+            while (columncheck <= 6 && columncheck >= 0 && rowcheck < 5 && rowcheck >=0){
                 columncheck--;
                 rowcheck++
                 if(board[rowcheck][columncheck] == currentplayer){
@@ -205,7 +205,7 @@
             columncheck = column;
             numpiece = 1;
 
-            //check diagonal left
+            //check diagonal right
             while (columncheck < 6 && columncheck >= 0 && rowcheck < 5 && rowcheck >=0){
                 columncheck++;
                 rowcheck++
